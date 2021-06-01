@@ -27,7 +27,7 @@ jobs:
       - name: lint server
         run: |
           cd server
-          npm run eslint
+          npm run lint
       - name: lint client
         run: |
           cd client
