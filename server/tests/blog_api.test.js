@@ -172,7 +172,6 @@ describe('deletion of a blog', () => {
             .send(newBlog)
             .expect(401)
             .expect('Content-Type', /application\/json/)
-        console.log(response.body)
 
         expect(response.body.error).toBe('invalid token')
     })
