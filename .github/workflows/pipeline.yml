@@ -49,7 +49,7 @@ jobs:
         with:
           working-directory: client
           command: npm run test:e2e
-          start: npm run start-prod
+          start: npm run start
           wait-on: http://localhost:3000
   deploy:
     runs-on: ubuntu-18.04
@@ -57,11 +57,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: deployment to Heroku
-      - uses: akhileshns/heroku-deploy@v3.12.12
+        uses: akhileshns/heroku-deploy@v3.12.12
         if: ${{ github.event_name == 'push' }}
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "full-stack-pokemon-cards"
+          heroku_app_name: "ullstack-bloglist-test-app"
           heroku_email: "kjuliusm@gmail.com"
           healthcheck: "https://fullstack-bloglist-test-app.herokuapp.com/health"
           checkstring: "ok"
