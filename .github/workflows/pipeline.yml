@@ -40,6 +40,9 @@ jobs:
         run: |
           cd server
           npm run test
+        env:
+          SECRET: ${{ secrets.SECRET }}
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
       - name: test client
         run: |
           cd server
@@ -51,6 +54,9 @@ jobs:
           command: npm run test:e2e
           start: npm run start
           wait-on: http://localhost:3000
+        env:
+          SECRET: ${{ secrets.SECRET }}
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
   deploy:
     runs-on: ubuntu-18.04
     needs: build_and_test
