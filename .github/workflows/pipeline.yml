@@ -1,0 +1,69 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: npm install server
+        run: |
+          cd server
+          npm install
+      - name: npm install client
+        run: |
+          cd client
+          npm install
+      - name: lint server
+        run: |
+          cd server
+          npm run eslint
+      - name: lint client
+        run: |
+          cd client
+          npm run eslint          
+      - name: build client
+        run: |
+          cd client
+          npm run build
+      - name: test server
+        run: |
+          cd server
+          npm run test
+      - name: test client
+        run: |
+          cd server
+          npm run test
+      - name: e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          working-directory: client
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:3000
+  deploy:
+    runs-on: ubuntu-18.04
+    needs: build_and_test
+    steps:
+      - uses: actions/checkout@v2
+      - name: deployment to Heroku
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        if: ${{ github.event_name == 'push' }}
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "full-stack-pokemon-cards"
+          heroku_email: "kjuliusm@gmail.com"
+          healthcheck: "https://fullstack-bloglist-test-app.herokuapp.com/health"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
+          appdir: "server"
