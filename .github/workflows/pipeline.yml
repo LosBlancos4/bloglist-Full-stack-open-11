@@ -45,7 +45,7 @@ jobs:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
       - name: test client
         run: |
-          cd server
+          cd client
           npm run test
       - name: e2e tests
         uses: cypress-io/github-action@v2

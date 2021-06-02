@@ -35,8 +35,8 @@ describe('blog components', () => {
     test('renders title and author, not url and likes', () => {
         expect(component.container).toHaveTextContent(blog.title)
         expect(component.container).toHaveTextContent(blog.author)
-        expect(component.queryByText(blog.url)).not.toBeInTheDocument()
-        expect(component.queryByText(blog.likes)).not.toBeInTheDocument()
+        expect(component.container).not.toHaveTextContent(blog.url)
+        expect(component.container).not.toHaveTextContent(blog.likes)
     })
 
     test('renders title and author, url and likes when view button has been clicked', () => {
