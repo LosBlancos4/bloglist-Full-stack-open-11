@@ -18,7 +18,7 @@
     "eject": "react-scripts eject",
     "eslint": "eslint .",
     "cypress:open": "cypress open",
-    "test:e2e": "(cd .. && cd server && npm run start:test) & cypress run"
+    "test:e2e": "(cd .. && cd server && npm run start:test) && cypress run"
   },
   "eslintConfig": {
     "extends": [
@@ -38,7 +38,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3003",
+  "proxy": "http://localhost:3001",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
