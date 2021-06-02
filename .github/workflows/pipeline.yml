@@ -51,7 +51,13 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           working-directory: client
-          command: npm run test:e2e
+          command: |
+            cd .. 
+            cd server
+            npm run start:test
+            cd ..
+            cd client
+            npm run test:e2e
           start: npm run start
           wait-on: http://localhost:3000
         env:
@@ -67,7 +73,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "ullstack-bloglist-test-app"
+          heroku_app_name: "fullstack-bloglist-test-app"
           heroku_email: "kjuliusm@gmail.com"
           healthcheck: "https://fullstack-bloglist-test-app.herokuapp.com/health"
           checkstring: "ok"
