@@ -1,5 +1,5 @@
 Cypress.Commands.add('login', ({ username, password }) => {
-    cy.request('POST', 'http://localhost:3003/api/login', {
+    cy.request('POST', 'http://localhost:3001/api/login', {
         username, password
     }).then(({ body }) => {
         localStorage.setItem('loggedBlogappUser', JSON.stringify(body))
@@ -9,7 +9,7 @@ Cypress.Commands.add('login', ({ username, password }) => {
 
 Cypress.Commands.add('addBlog', ({ title, author, url }) => {
     cy.request({
-        url: 'http://localhost:3003/api/blogs',
+        url: 'http://localhost:3001/api/blogs',
         method: 'POST',
         body: { title, author, url },
         headers: {
@@ -21,7 +21,7 @@ Cypress.Commands.add('addBlog', ({ title, author, url }) => {
 })
 
 Cypress.Commands.add('addUser', ({ username, name, password }) => {
-    cy.request('POST', 'http://localhost:3003/api/users', {
+    cy.request('POST', 'http://localhost:3001/api/users', {
         username, name, password
     }).then(() => {
         cy.visit('http://localhost:3000')
