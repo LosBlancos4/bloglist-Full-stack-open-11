@@ -90,8 +90,8 @@ describe('Blog app', function() {
             cy.get('@blog2').contains('like').click()
 
             cy.get('.likes').then(likes => {
-                cy.wrap(likes[0]).contains('likes 1')
-                cy.wrap(likes[1]).contains('likes 2')
+                cy.wrap(likes[1]).contains('likes 1')
+                cy.wrap(likes[2]).contains('likes 2')
             })
         })
     })
