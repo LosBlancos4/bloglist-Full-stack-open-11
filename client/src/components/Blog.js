@@ -27,7 +27,7 @@ const Blog = ({ blog, updateBlogHandler, removeBlogHandler }) => {
     }
 
     return (
-        <div style={blogStyle}>
+        <div style={blogStyle} className='blog'>
             {!visible&&(
                 <div>
                     {blog.title} {blog.author}

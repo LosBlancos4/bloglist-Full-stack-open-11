@@ -79,23 +79,19 @@ describe('Blog app', function() {
         })
 
         it('the most liked blog is in the top of the list', function() {
-            cy.contains('DevOps For Newbies').parent().find('#view-button').click()
-            cy.contains('DevOps For Newbies').parent().find('#like-button').click()
+            cy.contains('DevOps For Newbies').parent().as('blog1')
+            cy.contains('Kubernetes for everybody').parent().as('blog2')
 
-            cy.contains('Kubernetes for everybody').parent().find('#view-button').click()
+            cy.get('@blog1').contains('view').click()
+            cy.get('@blog1').contains('like').click()
 
-            cy.contains('Kubernetes for everybody').parent().find('#like-button').as('theLikeButton')
-            cy.get('@theLikeButton').click()
-            cy.get('@theLikeButton').click()
-
-            cy.get('button:contains("hide")').click({ multiple: true })
-            cy.get('button:contains("view")').click({ multiple: true })
+            cy.get('@blog2').contains('view').click()
+            cy.get('@blog2').contains('like').click()
+            cy.get('@blog2').contains('like').click()
 
             cy.get('.likes').then(likes => {
-                let likesFirstBlog = parseInt(likes.eq(0).text().substring(6, 7))
-                let likesSecondBlog = parseInt(likes.eq(1).text().substring(6, 7))
-                expect(likesFirstBlog).to.be.equal(2)
-                expect(likesSecondBlog).to.be.equal(1)
+                cy.wrap(likes[1]).contains('likes 1')
+                cy.wrap(likes[2]).contains('likes 2')
             })
         })
     })
