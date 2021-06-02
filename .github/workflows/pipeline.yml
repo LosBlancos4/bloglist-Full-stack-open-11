@@ -32,10 +32,10 @@ jobs:
         run: |
           cd client
           npm run eslint          
-      - name: build client
+      - name: build
         run: |
-          cd client
-          npm run build
+          cd server
+          npm run build:ui
       - name: test server
         run: |
           cd server
@@ -71,4 +71,4 @@ jobs:
           healthcheck: "https://fullstack-bloglist-test-app.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
-          appdir: "server"
+          remote_branch: master
