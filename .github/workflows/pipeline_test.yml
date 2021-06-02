@@ -1,4 +1,4 @@
-name: Deployment pipeline
+name: Test pipeline
 
 on:
   push:
@@ -57,18 +57,3 @@ jobs:
         env:
           SECRET: ${{ secrets.SECRET }}
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-  deploy:
-    runs-on: ubuntu-18.04
-    needs: build_and_test
-    steps:
-      - uses: actions/checkout@v2
-      - name: deployment to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "fullstack-bloglist-test-app"
-          heroku_email: "kjuliusm@gmail.com"
-          healthcheck: "https://fullstack-bloglist-test-app.herokuapp.com/health"
-          checkstring: "ok"
-          rollbackonhealthcheckfailed: true
-          appdir: "server"
