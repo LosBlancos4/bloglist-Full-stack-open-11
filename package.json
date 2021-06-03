@@ -37,6 +37,7 @@
     "morgan": "^1.10.0"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": ["<rootDir>/client/", "<rootDir>/node_modules/"]
   }
 }
