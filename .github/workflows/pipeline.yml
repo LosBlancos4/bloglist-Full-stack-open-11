@@ -24,8 +24,6 @@ jobs:
           npm install
         env:
           SKIP_PREFLIGHT_CHECK: true
-      - name: lint server
-        run: npm run lint
       - name: lint client & server
         run: npm run lint:all 
       - name: build
