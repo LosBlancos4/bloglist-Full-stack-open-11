@@ -73,4 +73,7 @@ jobs:
           rollbackonhealthcheckfailed: true
           appdir: "server"
           branch: "master"
-          remote_branch: "main"
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          SECRET: ${{secrets.SECRET}}
+          NODE_ENV: production
