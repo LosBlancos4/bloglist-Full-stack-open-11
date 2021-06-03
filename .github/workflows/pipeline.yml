@@ -17,11 +17,11 @@ jobs:
         with:
           node-version: '12.x'
       - name: npm install server
-        run: npm ci
+        run: npm install
       - name: npm install client
         run: |
           cd client
-          npm ci
+          npm install
         env:
           SKIP_PREFLIGHT_CHECK: true
       - name: lint server
