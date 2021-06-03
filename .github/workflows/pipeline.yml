@@ -72,3 +72,5 @@ jobs:
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
           appdir: "server"
+          branch: "master"
+          remote_branch: "main"
