@@ -17,17 +17,15 @@ jobs:
         with:
           node-version: '12.x'
       - name: npm install server
-        run: |
-          cd server
-          npm install
+        run: npm install
       - name: npm install client
         run: |
           cd client
           npm install
+        env:
+          SKIP_PREFLIGHT_CHECK: true
       - name: lint server
-        run: |
-          cd server
-          npm run lint
+        run: npm run lint
       - name: lint client
         run: |
           cd client
@@ -37,9 +35,7 @@ jobs:
           cd client
           npm run build
       - name: test server
-        run: |
-          cd server
-          npm run test
+        run: npm run test
         env:
           SECRET: ${{ secrets.SECRET }}
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
@@ -71,8 +67,6 @@ jobs:
           healthcheck: "https://blog-app-exercise-fullstack.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
-          appdir: "server"
-          branch: "master"
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           SECRET: ${{secrets.SECRET}}
