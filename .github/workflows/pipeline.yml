@@ -34,8 +34,8 @@ jobs:
           npm run eslint          
       - name: build
         run: |
-          cd server
-          npm run build:ui
+          cd client
+          npm run build
       - name: test server
         run: |
           cd server
