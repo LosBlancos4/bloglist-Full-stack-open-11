@@ -63,21 +63,6 @@ jobs:
     needs: build_and_test
     steps:
       - uses: actions/checkout@v2
-      - name: deployment to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "full-stack-open-bloglist2021"
-          heroku_email: "kjuliusm@gmail.com"
-          healthcheck: "https://full-stack-open-bloglist2021.herokuapp.com/health"
-          checkstring: "ok"
-          rollbackonhealthcheckfailed: true
-        env:
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          SECRET: ${{secrets.SECRET}}
-          NODE_ENV: production
-
-      - uses: actions/checkout@v2
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' }}
         uses: anothrNick/github-tag-action@1.33.0
