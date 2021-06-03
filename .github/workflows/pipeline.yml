@@ -45,6 +45,8 @@ jobs:
         run: |
           cd client
           npm run test
+        env:
+          SKIP_PREFLIGHT_CHECK: true
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
