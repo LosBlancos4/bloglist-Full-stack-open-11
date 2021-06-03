@@ -17,11 +17,11 @@ jobs:
         with:
           node-version: '12.x'
       - name: npm install server
-        run: npm install
+        run: npm ci
       - name: npm install client
         run: |
           cd client
-          npm install
+          npm ci
         env:
           SKIP_PREFLIGHT_CHECK: true
       - name: lint server
@@ -67,9 +67,9 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "full-stack-open-bloglist2021"
+          heroku_app_name: "polar-scrubland-16924"
           heroku_email: "kjuliusm@gmail.com"
-          healthcheck: "https://full-stack-open-bloglist2021.herokuapp.com/health"
+          healthcheck: "https://polar-scrubland-16924.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
         env:
