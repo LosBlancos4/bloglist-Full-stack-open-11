@@ -66,9 +66,9 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "fullstack-bloglist-test-app"
+          heroku_app_name: "blog-app-exercise-fullstack"
           heroku_email: "kjuliusm@gmail.com"
-          healthcheck: "https://fullstack-bloglist-test-app.herokuapp.com/health"
+          healthcheck: "https://blog-app-exercise-fullstack.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
           appdir: "server"
