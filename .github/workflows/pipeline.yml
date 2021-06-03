@@ -67,9 +67,9 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "polar-scrubland-16924"
+          heroku_app_name: "full-stack-open-bloglist2021"
           heroku_email: "kjuliusm@gmail.com"
-          healthcheck: "https://polar-scrubland-16924.herokuapp.com/health"
+          healthcheck: "https://full-stack-open-bloglist2021.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
         env:
