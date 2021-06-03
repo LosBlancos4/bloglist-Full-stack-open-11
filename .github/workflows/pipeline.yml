@@ -71,4 +71,4 @@ jobs:
           healthcheck: "https://fullstack-bloglist-test-app.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
-          remote_branch: master
+          appdir: "server"
