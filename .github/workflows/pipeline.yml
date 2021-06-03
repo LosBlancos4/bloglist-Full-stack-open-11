@@ -61,8 +61,7 @@ jobs:
           PORT: ${{secrets.PORT}}
   deploy:
     runs-on: ubuntu-18.04
-    env:
-      SKIP_PREFLIGHT_CHECK: true
+    needs: build_and_test
     steps:
       - uses: actions/checkout@v2
       - name: deployment to Heroku
