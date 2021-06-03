@@ -1,0 +1,104 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: npm install server
+        run: npm ci
+      - name: npm install client
+        run: |
+          cd client
+          npm ci
+        env:
+          SKIP_PREFLIGHT_CHECK: true
+      - name: lint server
+        run: npm run lint
+      - name: lint client
+        run: |
+          cd client
+          npm run eslint
+      - name: build
+        run: |
+          cd client
+          npm run build
+        env:
+          SKIP_PREFLIGHT_CHECK: true
+      - name: test server
+        run: npm run test
+        env:
+          SECRET: ${{ secrets.SECRET }}
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+      - name: test client
+        run: |
+          cd client
+          npm run test
+        env:
+          SKIP_PREFLIGHT_CHECK: true
+      - name: e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          working-directory: client
+          command: npm run test:e2e
+          start: npm run start
+          wait-on: http://localhost:3000
+        env:
+          SECRET: ${{ secrets.SECRET }}
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+          SKIP_PREFLIGHT_CHECK: true
+  deploy:
+    runs-on: ubuntu-18.04
+    needs: build_and_test
+    steps:
+      - uses: actions/checkout@v2
+      - name: deployment to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "full-stack-open-bloglist2021"
+          heroku_email: "kjuliusm@gmail.com"
+          healthcheck: "https://full-stack-open-bloglist2021.herokuapp.com/health"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          SECRET: ${{secrets.SECRET}}
+          NODE_ENV: production
+
+      - uses: actions/checkout@v2
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' }}
+        uses: anothrNick/github-tag-action@1.33.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: false
+          DEFAULT_BUMP: patch
+      - name: New release has been published
+        uses: 8398a7/action-slack@v3
+        if: success() # Pick up events even if the job fails or is canceled.
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took # selectable (default: repo,message)
+          custom_payload: |
+            {
+              username: 'LosBlancos',
+              icon_emoji: ':soccer:',
+              attachments: [{
+              color: 'good',
+                text: `A new version deployed to https://bloglist-test-app-fullstack.herokuapp.com/ | (${process.env.AS_COMMIT}) by ${process.env.AS_AUTHOR} (took: ${process.env.AS_TOOK})`,
+              }]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
