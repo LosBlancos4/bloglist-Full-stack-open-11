@@ -34,6 +34,8 @@ jobs:
         run: |
           cd client
           npm run build
+        env:
+          SKIP_PREFLIGHT_CHECK: true
       - name: test server
         run: npm run test
         env:
