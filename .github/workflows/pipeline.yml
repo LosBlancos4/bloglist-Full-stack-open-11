@@ -31,9 +31,7 @@ jobs:
           cd client
           npm run eslint
       - name: build
-        run: |
-          cd client
-          npm run build
+        run: npm run build:ui
         env:
           SKIP_PREFLIGHT_CHECK: true
       - name: test server
